@@ -1,0 +1,15 @@
+{
+	"manifest_version": 2,
+	"name": "Debug Panel",
+	"description": "This extension provides read debug logs from web server with out integration in html",
+	"version": "0.1",
+	"permissions": [
+        "<all_urls>",
+        "tabs",
+        "webRequest"
+	],	
+	"background": {
+		"scripts": ["background.js"]
+	},
+	"devtools_page": "devtools.html"	
+}
