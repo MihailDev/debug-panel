@@ -1,7 +1,7 @@
 if (typeof chrome !== "undefined")
     var browser = chrome;
 
-browser.devtools.panels.create('Debug Logs', '/icons/64.png', '/panel/panel.html', function(extensionPanel) {
+browser.devtools.panels.create('Debug Logs', '/icons/128.png', '/panel/panel.html', function(extensionPanel) {
     var _window;
     var tabId = browser.devtools.inspectedWindow.tabId;
     var data = [];
