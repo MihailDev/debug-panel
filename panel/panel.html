@@ -16,11 +16,15 @@
         overflow-y: scroll;
     }
 </style>
-<div class="container-fluid bg-dark p-1 fixed-top sticky-top">
+<div class="container-fluid bg-dark p-1 fixed-top sticky-top" id="top_panel">
     <div class="row ">
         <div class="col">
-            <select class="form-control form-control-sm" id="logs_info" class="mw-100">
-            </select>
+            <div class="btn-group w-100">
+                <button id="active_log" type="button" class="btn btn-secondary btn-sm dropdown-toggle w-100 text-left" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    No Logs
+                </button>
+                <div class="dropdown-menu w-100" id="log_stack"></div>
+            </div>
         </div>
         <div class="col-3">
             <input type="text" class="form-control form-control-sm" id="search_input" placeholder="Search" aria-describedby="basic-addon2">

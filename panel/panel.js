@@ -1,16 +1,29 @@
 var tmpLogs = [];
 
 function clear(){
-    jQuery('#logs_info').html('');
+    jQuery('#log_stack').html('');
     jQuery('#container').html('');
     jQuery('#search_input').html('');
 }
 
-function loadLog(url){
+function loadLog(el){
     jQuery('#search_input').html('');
     jQuery('#container').html('Loading ...');
+    jQuery('#active_log').html(jQuery(el).html());
+
+    jQuery('#log_stack button').removeClass('active');
+    jQuery(el).addClass('active');
+
+    jQuery('#active_log').removeClass('btn-danger').removeClass('btn-warning');
+
+    if(jQuery(el).attr('data-status-code') >= 400){
+        jQuery('#active_log').addClass('btn-danger');
+    } else if(jQuery(el).attr('data-status-code') > 200) {
+        jQuery('#active_log').addClass('btn-warning');
+    }
+
     jQuery.ajax({
-        url: url
+        url: jQuery(el).attr('data-log')
     }).done(function(data ){
         jQuery('#container').html(data);
     }).fail(function() {
@@ -31,14 +44,26 @@ function addLog(log){
         if(index > 0){
             prefInfo = '&#9562;' + '&#9552;'.repeat(Math.round(prefInfo.length/2)+2);
         }
-        var el = jQuery('<option>').val(logUrl).html(prefInfo + ' ' + index + ' - ' + log.url);
-        jQuery('#logs_info').append(el);
+
+        var el = jQuery('<button class="dropdown-item" type="button">')
+            .attr({'data-log': logUrl, 'data-status-code': log.statusCode, 'data-type': type})
+            .on('click', function () {
+                loadLog(this);
+            })
+            .html(prefInfo + ' ' + index + ' - ' + log.url);
+
+        jQuery('#log_stack').append(el);
+
+        if(log.statusCode >= 400){
+            el.addClass('text-danger');
+        } else if(log.statusCode > 200) {
+            el.addClass('text-warning');
+        }
+
+        if((log.statusCode >= 400 || log.type == 'main_frame') && index == 0){
+            loadLog(el);
+        }
     });
-
-
-    if(log.type == 'main_frame'){
-        loadLog(log.log[0]);
-    }
 }
 
 function makeAction(msg) {
@@ -63,10 +88,6 @@ jQuery(document).ready(function(){
         jQuery("tbody tr").filter(function() {
             jQuery(this).toggle(jQuery(this).text().toLowerCase().indexOf(value) > -1)
         });
-    });
-
-    jQuery("#logs_info").on("change", function() {
-       loadLog(jQuery(this).val());
     });
 
     tmpLogs.forEach(function(log) {
