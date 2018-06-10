@@ -1,5 +1,5 @@
 var tmpLogs = [];
-
+var showFirstError = true;
 function clear(){
     jQuery('#log_stack').html('');
     jQuery('#container').html('');
@@ -60,7 +60,8 @@ function addLog(log){
             el.addClass('text-warning');
         }
 
-        if((log.statusCode >= 400 || log.type == 'main_frame') && index == 0){
+        if((log.statusCode >= 400 || log.type == 'main_frame') && index == 0 && showFirstError){
+            showFirstError = false;
             loadLog(el);
         }
     });
