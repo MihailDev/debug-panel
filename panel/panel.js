@@ -4,6 +4,7 @@ function clear(){
     jQuery('#log_stack').html('');
     jQuery('#container').html('');
     jQuery('#search_input').html('');
+    showFirstError = true;
 }
 
 function loadLog(el){
@@ -22,13 +23,19 @@ function loadLog(el){
         jQuery('#active_log').addClass('btn-warning');
     }
 
-    jQuery.ajax({
-        url: jQuery(el).attr('data-log')
-    }).done(function(data ){
-        jQuery('#container').html(data);
-    }).fail(function() {
-        jQuery('#container').html('Can not load log ' + url);
-    });
+    var logUrl = jQuery(el).attr('data-log');
+
+    if(logUrl == 'no_logs'){
+        jQuery('#container').html('<div class="alert alert-warning mt-2" role="alert">There were no logs on this request</div>');
+    } else {
+        jQuery.ajax({
+            url: logUrl
+        }).done(function (data) {
+            jQuery('#container').html(data);
+        }).fail(function () {
+            jQuery('#container').html('<div class="alert alert-danger mt-2" role="alert">Can not load log ' + url + '</div>');
+        });
+    }
 }
 
 function addLog(log){
@@ -61,7 +68,8 @@ function addLog(log){
         }
 
         if((log.statusCode >= 400 || log.type == 'main_frame') && index == 0 && showFirstError){
-            showFirstError = false;
+            if(log.statusCode >= 400)
+                showFirstError = false;
             loadLog(el);
         }
     });

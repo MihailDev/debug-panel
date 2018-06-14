@@ -63,8 +63,11 @@ function headerListener(e){
         }
     }
 
-    if(msg.log.length)
-        notifyDevtools(msg);
+    if(msg.log.length == 0){
+        msg.log.push('no_logs');
+    }
+
+    notifyDevtools(msg);
 }
 
 browser.webRequest.onHeadersReceived.addListener(
