@@ -3,7 +3,7 @@
 	"name": "Debug Panel",
 	"description": "This extension provides read debug logs from web server with out integration in html",
 	"homepage_url": "https://github.com/MihailDev/debug-panel",
-	"version": "0.5",
+	"version": "0.6",
 	"permissions": [
         "<all_urls>",
         "tabs",
