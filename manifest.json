@@ -10,8 +10,6 @@
         "webRequest"
 	],
 	"icons": {
-		"48": "/icons/128.png",
-		"96": "/icons/128.png",
 		"128": "/icons/128.png",
 		"200": "/icons/200.png"
 	},
