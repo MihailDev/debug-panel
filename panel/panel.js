@@ -92,11 +92,26 @@ function makeAction(msg) {
 }
 
 jQuery(document).ready(function(){
-    jQuery("#search_input").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-        jQuery("tbody tr").filter(function() {
-            jQuery(this).toggle(jQuery(this).text().toLowerCase().indexOf(value) > -1)
-        });
+
+    jQuery("#search_input").on('keydown', function (e) {
+        if (e.keyCode == 13) {
+            e.preventDefault();
+            jQuery('#container').search(jQuery("#search_input").val());
+        }
+    });
+
+    jQuery("#search_input").on('keyup', function (e) {
+        if (e.keyCode != 13) {
+            jQuery('#container').search(jQuery("#search_input").val());
+        }
+    });
+
+    jQuery("#findPrevButton").click(function () {
+        jQuery('#container').search(jQuery("#search_input").val(), 'prev');
+    });
+
+    jQuery("#findNextButton").click(function () {
+        jQuery('#container').search(jQuery("#search_input").val());
     });
 
     tmpLogs.forEach(function(log) {
