@@ -31,7 +31,7 @@ var searchOject = {
     find: function (node) {
         if (node.nodeType == 3) {
             this.findInTextNode(node);
-        } else if(node.nodeType == 1 && node.childNodes && !/(script|style)/i.test(node.tagName)){
+        } else if(node.nodeType == 1 && node.childNodes && !/(script|style|textarea)/i.test(node.tagName)){
             for (var i = 0; i < node.childNodes.length; ++i) {
                 if(node.childNodes[i].nodeType == 3)
                     i += this.findInTextNode(node.childNodes[i]);
